@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Категорії лікарів (якщо вони ще не створені) -->
+        <record id="doctor_category_expert" model="hr.hospital.doctor.category">
+            <field name="name">Expert</field>
+            <field name="is_intern_category" eval="False"/>
+        </record>
+
+        <record id="doctor_category_intern" model="hr.hospital.doctor.category">
+            <field name="name">Intern</field>
+            <field name="is_intern_category" eval="True"/>
+        </record>
+
+        <!-- Експерти (Ментори) -->
+        <record id="doctor_house" model="hr.hospital.doctor">
+            <field name="name">Gregory House</field>
+            <field name="specialization">Diagnostic Medicine</field>
+            <field name="category_id" ref="doctor_category_expert"/>
+        </record>
+
+        <record id="doctor_cuddy" model="hr.hospital.doctor">
+            <field name="name">Lisa Cuddy</field>
+            <field name="specialization">Endocrinology</field>
+            <field name="category_id" ref="doctor_category_expert"/>
+        </record>
+
+        <record id="doctor_wilson" model="hr.hospital.doctor">
+            <field name="name">James Wilson</field>
+            <field name="specialization">Oncology</field>
+            <field name="category_id" ref="doctor_category_expert"/>
+        </record>
+
+        <!-- Інтерни (з прив'язкою до менторів) -->
+        <record id="doctor_chase" model="hr.hospital.doctor">
+            <field name="name">Robert Chase</field>
+            <field name="specialization">Intensive Care</field>
+            <field name="category_id" ref="doctor_category_intern"/>
+            <field name="mentor_id" ref="doctor_house"/>
+        </record>
+
+        <record id="doctor_cameron" model="hr.hospital.doctor">
+            <field name="name">Allison Cameron</field>
+            <field name="specialization">Immunology</field>
+            <field name="category_id" ref="doctor_category_intern"/>
+            <field name="mentor_id" ref="doctor_house"/>
+        </record>
+
+        <record id="doctor_foreman" model="hr.hospital.doctor">
+            <field name="name">Eric Foreman</field>
+            <field name="specialization">Neurology</field>
+            <field name="category_id" ref="doctor_category_intern"/>
+            <field name="mentor_id" ref="doctor_cuddy"/>
+        </record>
+
+        <record id="doctor_hadley" model="hr.hospital.doctor">
+            <field name="name">Remy Hadley (Thirteen)</field>
+            <field name="specialization">Internal Medicine</field>
+            <field name="category_id" ref="doctor_category_intern"/>
+            <field name="mentor_id" ref="doctor_wilson"/>
+        </record>
+
+    </data>
+</odoo>

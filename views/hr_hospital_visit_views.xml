@@ -5,11 +5,18 @@
             <field name="name">hr.hospital.visit.list</field>
             <field name="model">hr.hospital.visit</field>
             <field name="arch" type="xml">
-                <list>
-                    <field name="visit_date"/>
+                <list decoration-info="state == 'planned'"
+                      decoration-success="state == 'done'"
+                      decoration-danger="state == 'cancelled'">
+                    <field name="planned_date"/>
+                    <field name="actual_date"/>
                     <field name="patient_id"/>
                     <field name="doctor_id"/>
                     <field name="disease_id"/>
+                    <field name="state" widget="badge"
+                           decoration-info="state == 'planned'"
+                           decoration-success="state == 'done'"
+                           decoration-danger="state == 'cancelled'"/>
                 </list>
             </field>
         </record>
@@ -19,17 +26,30 @@
             <field name="model">hr.hospital.visit</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button name="action_done" string="Complete" type="object"
+                                class="oe_highlight" invisible="state != 'planned'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="planned,done,cancelled"/>
+                    </header>
                     <sheet>
                         <group>
-                            <group>
-                                <field name="visit_date"/>
+                            <group string="Schedule &amp; Patient">
+                                <field name="planned_date"/>
+                                <field name="actual_date" readonly="state == 'done'"/>
                                 <field name="patient_id"/>
                             </group>
-                            <group>
+                            <group string="Medical Details">
                                 <field name="doctor_id"/>
                                 <field name="disease_id"/>
                             </group>
                         </group>
+                        <notebook>
+                            <page string="Epicrisis / Summary" name="medical_details">
+                                <!-- Поле summary тепер типу HTML (п. 3.5) -->
+                                <field name="summary" widget="html"
+                                       placeholder="Describe symptoms and prescribed treatment..."/>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
@@ -37,7 +57,7 @@
 
         <record id="action_hr_hospital_visit" model="ir.actions.act_window">
             <field name="name">Visits</field>
-            <field name="res_model" >hr.hospital.visit</field>
+            <field name="res_model">hr.hospital.visit</field>
             <field name="view_mode">list,form</field>
         </record>
     </data>

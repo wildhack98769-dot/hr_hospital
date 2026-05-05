@@ -8,7 +8,9 @@
                 <list>
                     <field name="name"/>
                     <field name="specialization"/>
+                    <field name="category_id"/>
                     <field name="mentor_id"/>
+                    <field name="phone"/>
                 </list>
             </field>
         </record>
@@ -19,10 +21,27 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
+                        <field name="photo" widget="image" class="oe_avatar" options="{'size': [90, 90]}"/>
+                        <div class="oe_title">
+                            <label for="name" string="Full name"/>
+                            <h1>
+                                <field name="name" placeholder="etc. House M.D." required="1"/>
+                            </h1>
+                        </div>
                         <group>
-                            <field name="name"/>
-                            <field name="specialization"/>
-                            <field name="mentor_id"/>
+                            <!-- Ліва колонка -->
+                            <group string="Professional Info">
+                                <field name="specialization"/>
+                                <field name="category_id" required="1"/>
+                                <field name="is_intern" invisible="1"/>
+                                <field name="mentor_id" invisible="not is_intern" required="is_intern"/>
+                            </group>
+                            <!-- Права колонка -->
+                            <group string="Personal Info">
+                                <field name="gender"/>
+                                <field name="phone" widget="phone"/>
+                                <field name="email" widget="email"/>
+                            </group>
                         </group>
                     </sheet>
                 </form>
