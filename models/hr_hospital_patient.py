@@ -27,10 +27,7 @@ class HospitalPatient(models.Model):
     doctor_history_ids = fields.One2many(
         comodel_name="hr.hospital.doctor.history",
         inverse_name="patient_id",
-        string="Doctor History"
+        string="Doctor History",
     )
 
-    insurance_policy = fields.Char(
-        string="Insurance Policy",
-        size=20
-    )
+    insurance_policy = fields.Char(string="Insurance Policy", size=20)

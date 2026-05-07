@@ -1,5 +1,6 @@
-from odoo import fields, models, api
 from odoo.exceptions import ValidationError
+
+from odoo import api, fields, models
 
 
 class HospitalDoctor(models.Model):
@@ -17,7 +18,7 @@ class HospitalDoctor(models.Model):
     category_id = fields.Many2one(
         comodel_name="hr.hospital.doctor.category",
         string="Category",
-        ondelete="restrict"
+        ondelete="restrict",
     )
 
     user_id = fields.Many2one(
@@ -35,26 +36,31 @@ class HospitalDoctor(models.Model):
         comodel_name="hr.hospital.doctor",
         string="Mentor Doctor",
         help="Only non-intern doctors can be mentors.",
-
-        domain="[('is_intern', '=', False)]"
+        domain="[('is_intern', '=', False)]",
     )
 
-    @api.depends('category_id')
+    @api.depends("category_id")
     def _compute_is_intern(self):
         """Визначаємо статус інтерна на основі зовнішнього ID категорії."""
         for rec in self:
-            rec.is_intern = rec.category_id.is_intern_category if rec.category_id else False
+            rec.is_intern = (
+                rec.category_id.is_intern_category if rec.category_id else False
+            )
 
-    @api.constrains('mentor_id', 'is_intern')
+    @api.constrains("mentor_id", "is_intern")
     def _check_mentor_intern_status(self):
         """Перевірка обмежень для менторів та інтернів."""
         for rec in self:
             if rec.is_intern:
                 if rec.mentor_id:
                     if rec.mentor_id.is_intern:
-                        raise ValidationError(self.env._("A mentor cannot be an intern!"))
+                        raise ValidationError(
+                            self.env._("A mentor cannot be an intern!")
+                        )
                     if rec.mentor_id == rec:
-                        raise ValidationError(self.env._("A doctor cannot be their own mentor!"))
+                        raise ValidationError(
+                            self.env._("A doctor cannot be their own mentor!")
+                        )
             else:
                 if rec.mentor_id:
                     raise ValidationError(self.env._("Only interns can have a mentor."))
