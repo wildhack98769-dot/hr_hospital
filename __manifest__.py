@@ -10,6 +10,8 @@
                 "hr",
                 ],
     "data": [
+        "data/category_data.xml",
+        "security/hr_hospital_privileges.xml",
         "security/hr_hospital_groups.xml",
         "security/ir.model.access.csv",
         "security/hr_hospital_record_rules.xml",

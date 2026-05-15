@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hospital_privilege" model="res.groups.privilege">
+            <field name="name">Hospital</field>
+            <field name="category_id" ref="hr_hospital.module_category_hospital"/>
+            <field name="sequence">10</field>
+        </record>
+    </data>
+</odoo>
