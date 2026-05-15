@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="demo_doctor_mentor" model="hr.hospital.doctor">
+            <field name="name">Gregory House</field>
+            <field name="specialization">Diagnostics</field>
+        </record>
+
+        <record id="demo_doctor_1" model="hr.hospital.doctor">
+            <field name="name">James Wilson</field>
+            <field name="mentor_id" ref="demo_doctor_mentor"/>
+        </record>
+
+        <record id="demo_doctor_2" model="hr.hospital.doctor">
+            <field name="name">Eric Foreman</field>
+            <field name="mentor_id" ref="demo_doctor_mentor"/>
+        </record>
+
+        <record id="demo_patient_1" model="hr.hospital.patient">
+            <field name="name">John Doe</field>
+        </record>
+
+        <record id="demo_patient_2" model="hr.hospital.patient">
+            <field name="name">Jane Smith</field>
+        </record>
+
+        <record id="demo_patient_3" model="hr.hospital.patient">
+            <field name="name">Robert Chase</field>
+        </record>
+
+    </data>
+</odoo>

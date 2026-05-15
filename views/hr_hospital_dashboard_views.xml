@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_hospital_dashboard_form" model="ir.ui.view">
+        <field name="name">hr.hospital.dashboard.form</field>
+        <field name="model">hr.hospital.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Hospital" create="false" edit="false" delete="false" class="o_hospital_dashboard">
+                <sheet>
+                    <field name="name" invisible="1"/>
+
+                    <div class="text-center mb-3 mb-md-5">
+                        <h1 class="h2 h1-md text-primary fw-bold">Hospital System</h1>
+                        <p class="text-muted d-none d-sm-block">Select an action to get started</p>
+                    </div>
+
+                    <div class="row row-cols-1 row-cols-md-3 g-3 mb-4">
+
+                        <div class="col"
+                             groups="hr_hospital.group_hospital_doctor,hr_hospital.group_hospital_manager,hr_hospital.group_hospital_admin">
+                            <div class="card h-100 shadow-sm border-0 bg-light">
+                                <div class="card-body p-3 text-center">
+                                    <div class="mb-3">
+                                        <i class="fa fa-users fa-2x fa-md-3x text-success"/>
+                                        <h5 class="mt-2 fw-bold">Staff and Patients</h5>
+                                    </div>
+                                    <div class="d-grid gap-2">
+                                        <button name="action_open_patients" string="Patients" type="object"
+                                                class="btn btn-success rounded-pill py-2 shadow-sm"/>
+                                        <button name="action_open_doctors" string="Doctors" type="object"
+                                                class="btn btn-outline-success rounded-pill py-2"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="card h-100 shadow-sm border-0 bg-light">
+                                <div class="card-body p-3 text-center">
+                                    <div class="mb-3">
+                                        <i class="fa fa-calendar-check-o fa-2x fa-md-3x text-primary"/>
+                                        <h5 class="mt-2 fw-bold">Visits Log</h5>
+                                    </div>
+                                    <div class="d-grid gap-2">
+                                        <button name="action_open_visits" string="Visits" type="object"
+                                                class="btn btn-primary rounded-pill py-2 shadow-sm"/>
+                                        <button name="action_open_doctor_history" string="Doctor History" type="object"
+                                                groups="hr_hospital.group_hospital_doctor,hr_hospital.group_hospital_manager,hr_hospital.group_hospital_admin"
+                                                class="btn btn-outline-primary rounded-pill py-2"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col"
+                             groups="hr_hospital.group_hospital_doctor,hr_hospital.group_hospital_manager,hr_hospital.group_hospital_admin">
+                            <div class="card h-100 shadow-sm border-0 bg-light">
+                                <div class="card-body p-3 text-center">
+                                    <div class="mb-3">
+                                        <i class="fa fa-medkit fa-2x fa-md-3x text-info"/>
+                                        <h5 class="mt-2 fw-bold">Catalogs</h5>
+                                    </div>
+                                    <div class="d-grid gap-2">
+                                        <button name="action_open_diseases" string="Diseases" type="object"
+                                                class="btn btn-info text-white rounded-pill py-2 shadow-sm"/>
+                                        <button name="action_open_doctor_categories" string="Qualifications" type="object"
+                                                class="btn btn-outline-info rounded-pill py-2"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2 text-center">
+
+                        <div class="col"
+                             groups="hr_hospital.group_hospital_doctor,hr_hospital.group_hospital_manager,hr_hospital.group_hospital_admin">
+                            <div class="p-2 border rounded bg-white shadow-sm h-100">
+                                <small class="text-muted d-block text-truncate">Patients</small>
+                                <span class="h4 fw-bold text-success"><field name="patient_count" readonly="1"/></span>
+                            </div>
+                        </div>
+
+                        <div class="col"
+                             groups="hr_hospital.group_hospital_doctor,hr_hospital.group_hospital_manager,hr_hospital.group_hospital_admin">
+                            <div class="p-2 border rounded bg-white shadow-sm h-100">
+                                <small class="text-muted d-block text-truncate">Doctors</small>
+                                <span class="h4 fw-bold text-success"><field name="doctor_count" readonly="1"/></span>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="p-2 border rounded bg-white shadow-sm h-100">
+                                <small class="text-muted d-block text-truncate">Visits</small>
+                                <span class="h4 fw-bold text-primary"><field name="visit_count" readonly="1"/></span>
+                            </div>
+                        </div>
+
+                        <div class="col"
+                             groups="hr_hospital.group_hospital_doctor,hr_hospital.group_hospital_manager,hr_hospital.group_hospital_admin">
+                            <div class="p-2 border rounded bg-white shadow-sm h-100">
+                                <small class="text-muted d-block text-truncate">Diseases</small>
+                                <span class="h4 fw-bold text-info"><field name="disease_count" readonly="1"/></span>
+                            </div>
+                        </div>
+
+                        <div class="col"
+                             groups="hr_hospital.group_hospital_doctor,hr_hospital.group_hospital_manager,hr_hospital.group_hospital_admin">
+                            <div class="p-2 border rounded bg-white shadow-sm h-100">
+                                <small class="text-muted d-block text-truncate">Qual.</small>
+                                <span class="h4 fw-bold text-info"><field name="doctor_category_count" readonly="1"/></span>
+                            </div>
+                        </div>
+
+                        <div class="col"
+                             groups="hr_hospital.group_hospital_doctor,hr_hospital.group_hospital_manager,hr_hospital.group_hospital_admin">
+                            <div class="p-2 border rounded bg-white shadow-sm h-100">
+                                <small class="text-muted d-block text-truncate">History</small>
+                                <span class="h4 fw-bold text-secondary"><field name="doctor_history_count" readonly="1"/></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_hospital_dashboard" model="ir.actions.act_window">
+        <field name="name">Hospital</field>
+        <field name="res_model">hr.hospital.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_hr_hospital_dashboard_form"/>
+    </record>
+</odoo>
