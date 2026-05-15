@@ -34,9 +34,7 @@ class TestHospitalModule(TransactionCase):
     def test_patient_create_visit_action_sets_defaults(self):
         """Patient quick visit action should prefill patient and doctor."""
         doctor = self.env['hr.hospital.doctor'].create({'name': 'Test Doctor'})
-        patient = self.env['hr.hospital.patient'].create(
-            {'name': 'Test Patient', 'personal_doctor_id': doctor.id}
-        )
+        patient = self.env['hr.hospital.patient'].create({'name': 'Test Patient', 'personal_doctor_id': doctor.id})
 
         action = patient.action_create_visit()
 
@@ -75,32 +73,40 @@ class TestHospitalModule(TransactionCase):
         doctor_user = self._make_user('test.doctor', 'hr_hospital.group_hospital_doctor')
         manager_user = self._make_user('test.manager', 'hr_hospital.group_hospital_manager')
 
-        mentor = self.env['hr.hospital.doctor'].sudo().create(
-            {'name': 'Mentor', 'user_id': doctor_user.id}
+        mentor = self.env['hr.hospital.doctor'].sudo().create({'name': 'Mentor', 'user_id': doctor_user.id})
+        intern = (
+            self.env['hr.hospital.doctor']
+            .sudo()
+            .create(
+                {
+                    'name': 'Intern',
+                    'user_id': intern_user.id,
+                    'mentor_id': mentor.id,
+                }
+            )
         )
-        intern = self.env['hr.hospital.doctor'].sudo().create(
-            {
-                'name': 'Intern',
-                'user_id': intern_user.id,
-                'mentor_id': mentor.id,
-            }
+        patient = self.env['hr.hospital.patient'].sudo().create({'name': 'Patient', 'user_id': patient_user.id})
+        own_visit = (
+            self.env['hr.hospital.visit']
+            .sudo()
+            .create(
+                {
+                    'patient_id': patient.id,
+                    'doctor_id': mentor.id,
+                    'planned_date': fields.Datetime.now(),
+                }
+            )
         )
-        patient = self.env['hr.hospital.patient'].sudo().create(
-            {'name': 'Patient', 'user_id': patient_user.id}
-        )
-        own_visit = self.env['hr.hospital.visit'].sudo().create(
-            {
-                'patient_id': patient.id,
-                'doctor_id': mentor.id,
-                'planned_date': fields.Datetime.now(),
-            }
-        )
-        intern_visit = self.env['hr.hospital.visit'].sudo().create(
-            {
-                'patient_id': patient.id,
-                'doctor_id': intern.id,
-                'planned_date': fields.Datetime.now(),
-            }
+        intern_visit = (
+            self.env['hr.hospital.visit']
+            .sudo()
+            .create(
+                {
+                    'patient_id': patient.id,
+                    'doctor_id': intern.id,
+                    'planned_date': fields.Datetime.now(),
+                }
+            )
         )
 
         patient_visible = self.env['hr.hospital.visit'].with_user(patient_user).search([])
@@ -180,9 +186,7 @@ class TestHospitalModule(TransactionCase):
     def test_doctor_group_can_edit_doctor_cards(self):
         """Doctor users should be able to edit doctor cards, but not delete them."""
         doctor_user = self._make_user('doctor.card', 'hr_hospital.group_hospital_doctor')
-        doctor = self.env['hr.hospital.doctor'].sudo().create(
-            {'name': 'Editable Doctor', 'user_id': doctor_user.id}
-        )
+        doctor = self.env['hr.hospital.doctor'].sudo().create({'name': 'Editable Doctor', 'user_id': doctor_user.id})
 
         doctor.with_user(doctor_user).write({'specialization': 'Updated Specialization'})
         self.assertEqual(doctor.specialization, 'Updated Specialization')
