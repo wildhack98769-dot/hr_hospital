@@ -41,7 +41,9 @@
                          <t t-name="menu">
                             <t t-if="widget.editable"><a role="menuitem" type="open" class="dropdown-item">Edit</a></t>
                             <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
-                            <div role="separator" class="dropdown-divider"></div>
+                            <div role="separator" class="dropdown-divider">
+
+                            </div>
                             <field name="color" widget="kanban_color_picker"/>
                         </t>
 	                    <t t-name="card">
